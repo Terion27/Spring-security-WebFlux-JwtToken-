@@ -1,4 +1,4 @@
-package spring.weblux.jwt.auth.models.dto;
+package spring.weblux.jwt.models.auth.dto;
 
 import java.io.Serial;
 import java.util.Collection;

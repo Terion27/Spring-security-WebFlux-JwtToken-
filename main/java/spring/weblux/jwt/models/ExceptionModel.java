@@ -1,4 +1,4 @@
-package spring.weblux.jwt.auth.models;
+package spring.weblux.jwt.models;
 
 import lombok.AllArgsConstructor;
 import lombok.ToString;

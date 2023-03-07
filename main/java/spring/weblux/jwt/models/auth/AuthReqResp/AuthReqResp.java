@@ -1,4 +1,4 @@
-package spring.weblux.jwt.models.ReqResp;
+package spring.weblux.jwt.models.auth.AuthReqResp;
 
 
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
-public class ReqResp<T> implements IReqResp<T> {
+public class AuthReqResp<T> implements IAuthReqResp<T> {
 
     private T data;
     private String msg;

@@ -1,4 +1,4 @@
-package spring.weblux.jwt.auth.controllers;
+package spring.weblux.jwt.project.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

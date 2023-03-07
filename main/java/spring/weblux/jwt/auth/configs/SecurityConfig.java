@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import spring.weblux.jwt.auth.services.AuthUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -40,20 +39,6 @@ public class SecurityConfig {
                 .build();
 
     }
-
-    @Bean
-    AuthUserDetailsService userDetailService() {
-        return new AuthUserDetailsService();
-    }
-
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-    //       final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-    //       authenticationProvider.setUserDetailsService(userDetailsService());
-//        authenticationProvider.setPasswordEncoder(passwordEncoder());
-    //       return authenticationProvider;
-//    }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

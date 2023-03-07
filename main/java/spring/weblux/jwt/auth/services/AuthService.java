@@ -2,10 +2,13 @@ package spring.weblux.jwt.auth.services;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import spring.weblux.jwt.models.ReqResp.ReqResp;
+import spring.weblux.jwt.auth.utils.AuthUserDetailsService;
+import spring.weblux.jwt.auth.utils.JwtService;
+import spring.weblux.jwt.models.auth.AuthReqResp.AuthReqResp;
 
 @Service
 public class AuthService {
@@ -19,11 +22,12 @@ public class AuthService {
         this.jwtService = jwtService;
     }
 
-    public Mono<ResponseEntity<ReqResp<String>>> login(String userName, String password) {
+    public Mono<ResponseEntity<AuthReqResp<String>>> login(String userName, String password) {
         return authUserDetailsService
                 .findByUsername(userName.toLowerCase())
-                .filter(usr -> (passwordEncoder.matches(password, usr.getPassword())))
-                .map(u -> ResponseEntity.ok(new ReqResp<>(jwtService.generate(u.getUsername()), "Success")))
-                .switchIfEmpty(Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ReqResp<>("", "Credentials are incorrect"))));
+                .filter(u -> u.getUsername().equals(userName) && passwordEncoder.matches(password, u.getPassword()))
+                .filter(UserDetails::isEnabled)  // is Status optional
+                .map(u -> ResponseEntity.ok(new AuthReqResp<>(jwtService.generate(u.getUsername()), "Success")))
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new AuthReqResp<>("", "Credentials are incorrect")));
     }
 }

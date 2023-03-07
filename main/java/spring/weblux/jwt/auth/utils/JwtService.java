@@ -1,14 +1,12 @@
-package spring.weblux.jwt.auth.services;
+package spring.weblux.jwt.auth.utils;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-import spring.weblux.jwt.auth.models.dto.UserAuthDto;
+import org.springframework.stereotype.Component;
+import spring.weblux.jwt.models.auth.dto.UserAuthDto;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -16,9 +14,10 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-@Service
+@Component
 public class JwtService {
 
+    private static final int TOKEN_EXPIRATION_DATE = 7;
     private final SecretKey key;
     private final JwtParser parser;
 
@@ -32,7 +31,7 @@ public class JwtService {
         return Jwts.builder()
                 .setSubject(userName)
                 .setIssuedAt(Date.from(Instant.now()))
-                .setExpiration(Date.from(Instant.now().plus(7, ChronoUnit.DAYS)))
+                .setExpiration(Date.from(Instant.now().plus(TOKEN_EXPIRATION_DATE, ChronoUnit.DAYS)))
                 .signWith(key)
                 .compact();
     }
