@@ -17,7 +17,7 @@ public class AuthUserDetailsService implements ReactiveUserDetailsService {
 
     @Override
     public Mono<UserDetails> findByUsername(String username) {
-        return accessDbService.userDetailsByUsername(username).cast(UserDetails.class);
+       return accessDbService.userDetailsByUsername(username).cast(UserDetails.class);
     }
 
 }

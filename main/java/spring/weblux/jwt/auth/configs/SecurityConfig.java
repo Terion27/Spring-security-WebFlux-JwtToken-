@@ -1,43 +1,40 @@
 package spring.weblux.jwt.auth.configs;
 
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http, AuthConverter authConverter, AuthManager authManager) {
+        AuthenticationWebFilter jwtFilter = new AuthenticationWebFilter(authManager);
+        jwtFilter.setServerAuthenticationConverter(authConverter);
+
         return http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/").permitAll()
-                        .anyRequest().authenticated()
+                .authorizeExchange(auth -> auth
+                        .pathMatchers("/api/v1/auth/**").permitAll()
+                        .pathMatchers("/*").permitAll()
+                        .anyExchange().authenticated()
                 )
-                .httpBasic().disable()
+                .addFilterBefore(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+                .httpBasic()
+                .and()
                 .formLogin().disable()
                 .csrf().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .logout((logout) -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/index")
-                        .invalidateHttpSession(true)
-                )
                 //               .authenticationProvider(authenticationProvider())
                 //               .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-
     }
 
     @Bean

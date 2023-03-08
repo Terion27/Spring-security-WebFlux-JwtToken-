@@ -6,7 +6,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import spring.weblux.jwt.models.auth.dto.UserAuthDto;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -42,7 +41,7 @@ public class JwtService {
                 .getBody().getSubject();
     }
 
-    public boolean isValid(String token, UserAuthDto userAuthDto) {
+    public boolean isValid(String token, String username) {
         Claims claims = parser
                 .parseClaimsJws(token).
                 getBody();
@@ -50,6 +49,6 @@ public class JwtService {
                 .getExpiration()
                 .after(Date.from(Instant.now()));
 
-        return unexpired && userAuthDto.getUsername().equalsIgnoreCase(claims.getSubject());
+        return unexpired && username.equalsIgnoreCase(claims.getSubject());
     }
 }

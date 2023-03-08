@@ -1,4 +1,4 @@
-package spring.weblux.jwt.auth.utils;
+package spring.weblux.jwt.auth.configs;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
@@ -22,4 +22,5 @@ public class AuthConverter implements ServerAuthenticationConverter {
                 .map(s -> s.substring(7))
                 .map(BearerToken::new);
     }
+
 }
