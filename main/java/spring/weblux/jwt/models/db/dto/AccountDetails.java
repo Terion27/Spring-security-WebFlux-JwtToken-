@@ -1,4 +1,4 @@
-package spring.weblux.jwt.models.dto.db;
+package spring.weblux.jwt.models.db.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;

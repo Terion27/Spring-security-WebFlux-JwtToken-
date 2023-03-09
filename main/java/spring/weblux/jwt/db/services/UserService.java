@@ -16,6 +16,6 @@ public class UserService {
     public Mono<UserAuthDto> userLoginByUsername(String username) {
         return userRepository
                 .findAuthByUsername(username)
-                .switchIfEmpty(Mono.just(new UserAuthDto("","","",false)));
+                .switchIfEmpty(Mono.just(new UserAuthDto("", "", "", false)));
     }
 }

@@ -32,8 +32,6 @@ public class SecurityConfig {
                 .and()
                 .formLogin().disable()
                 .csrf().disable()
-                //               .authenticationProvider(authenticationProvider())
-                //               .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

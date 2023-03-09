@@ -1,6 +1,5 @@
 package spring.weblux.jwt.models.auth.AuthReqResp;
 
-
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -22,5 +22,4 @@ public class AuthConverter implements ServerAuthenticationConverter {
                 .map(s -> s.substring(7))
                 .map(BearerToken::new);
     }
-
 }

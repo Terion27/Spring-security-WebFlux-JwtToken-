@@ -1,6 +1,5 @@
 package spring.weblux.jwt.auth.utils;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -36,19 +35,26 @@ public class JwtService {
     }
 
     public String getUserName(String token) {
-        return parser
-                .parseClaimsJws(token)
-                .getBody().getSubject();
+        try {
+            return parser
+                    .parseClaimsJws(token)
+                    .getBody().getSubject();
+        } catch (Exception e) {
+            return "";
+        }
+
     }
 
     public boolean isValid(String token, String username) {
-        Claims claims = parser
-                .parseClaimsJws(token).
-                getBody();
-        boolean unexpired = claims
-                .getExpiration()
-                .after(Date.from(Instant.now()));
-
-        return unexpired && username.equalsIgnoreCase(claims.getSubject());
+        try {
+            return username.equalsIgnoreCase(getUserName(token)) &&
+                    parser
+                            .parseClaimsJws(token)
+                            .getBody()
+                            .getExpiration()
+                            .after(Date.from(Instant.now()));
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
