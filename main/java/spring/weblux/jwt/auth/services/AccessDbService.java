@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import spring.weblux.jwt.db.services.UserService;
 import spring.weblux.jwt.models.auth.dto.UserAuthDto;
+import spring.weblux.jwt.models.auth.dto.UserRegDto;
 
 @Service
 public class AccessDbService {
@@ -17,4 +18,7 @@ public class AccessDbService {
         return userService.userLoginByUsername(username);
     }
 
+    public Mono<UserAuthDto> createUser(UserRegDto userReg) {
+        return userService.createUser(userReg);
+    }
 }

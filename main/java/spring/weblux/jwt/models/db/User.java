@@ -1,6 +1,6 @@
 package spring.weblux.jwt.models.db;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -30,7 +30,7 @@ public class User {
     private String lastName;
     private String telephone;
     @Column("registration_date")
-    private LocalDate registrationDate;
+    private LocalDateTime registrationDate;
     private boolean status;
     private boolean visibility;
     private String role;

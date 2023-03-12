@@ -2,14 +2,14 @@
 CREATE TABLE users
 (
     id bigserial primary key,
-    username varchar(64),
-    password varchar(64),
-    email varchar(64),
-    firstName varchar(64),
-    lastName varchar(64),
+    username varchar(64) unique not null,
+    password varchar(64) not null,
+    email varchar(64) unique not null,
+    first_Name varchar(64),
+    last_Name varchar(64),
     telephone varchar(64),
-    registrationDate timestamp,
-    status boolean,
-    visibility boolean,
-    role varchar(64)
+    registration_Date timestamp not null,
+    status boolean not null,
+    visibility boolean not null,
+    role varchar(64) not null
 );

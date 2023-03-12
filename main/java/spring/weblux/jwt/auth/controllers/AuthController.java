@@ -6,6 +6,7 @@ import reactor.core.publisher.Mono;
 import spring.weblux.jwt.models.auth.dto.UserLoginDto;
 import spring.weblux.jwt.auth.services.AuthService;
 import spring.weblux.jwt.models.auth.AuthReqResp.AuthReqResp;
+import spring.weblux.jwt.models.auth.dto.UserRegDto;
 
 
 @RestController
@@ -18,14 +19,14 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @GetMapping("/reg")
-    public Mono<ResponseEntity<AuthReqResp<Boolean>>> reg() {
-        return Mono.just(ResponseEntity.ok().body(new AuthReqResp<>(true, "")));
+    @PostMapping("/reg")
+    public Mono<ResponseEntity<AuthReqResp<String>>> reg(@RequestBody UserRegDto userReg) {
+        return authService.reg(userReg);
     }
 
     @PostMapping("/login")
     public Mono<ResponseEntity<AuthReqResp<String>>> login(@RequestBody UserLoginDto userLogin) {
-        return authService.login(userLogin.getUsername(), userLogin.getPassword());
+        return authService.login(userLogin);
     }
 
     @GetMapping("/valid")
