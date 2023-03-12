@@ -4,32 +4,32 @@ import java.io.Serial;
 import java.util.Collection;
 import java.util.Collections;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserAuthDto implements UserDetails {
     @Serial
     private static final long serialVersionUID = 730351362989036717L;
 
+    @Id
+    private Long id;
     private String username;
     @JsonIgnore
     private String password;
     private String role;
     private boolean status;
-
-
-    public UserAuthDto() {
-    }
-
-    public UserAuthDto(String username, String password, String role, boolean status) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.status = status;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
